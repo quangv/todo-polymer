@@ -21,8 +21,8 @@
     </style>
     <h2>[[prop1]]</h2>
     <paper-material elevation="2" id="paper">
-      <paper-input autofocus placeholder="Add Item" --paper-input-container-focus-color="red">
-        <paper-fab suffix icon="add" title="add item" id="add-fab"></paper-fab>
+    <paper-input id="input" on-keyup="handleKeyUp" autofocus placeholder="Add Item" --paper-input-container-focus-color="red">
+        <paper-fab suffix icon="add" title="add item" id="add-fab" on-click="addItem"></paper-fab>
       </paper-input>
     </paper-material>
   </template>
@@ -38,6 +38,19 @@
           value: 'To-Do Polymer App',
         },
       },
+
+      handleKeyUp: function(event){
+        if(event.key === "Enter"){
+          this.addItem();
+        }
+      },
+
+      addItem: function(){
+        var text = this.$.input.value;
+        if(!text) return;  // Don't allow adding blank items.
+        console.log('add', text);
+        this.$.input.value = "";
+      }
 
     });
   </script>
