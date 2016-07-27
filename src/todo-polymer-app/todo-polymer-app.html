@@ -1,21 +1,29 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 
 <dom-module id="todo-polymer-app">
   <template>
     <style>
       :host {
         display: block;
+        --paper-input-container-focus-color: orange;
       }
       #paper {
         margin: 0 10%;
         padding: 1em;
       }
+      #add-fab {
+        background-color: lightgreen;
+      }
     </style>
     <h2>[[prop1]]</h2>
     <paper-material elevation="2" id="paper">
-      <paper-input autofocus placeholder="Add Item" />
+      <paper-input autofocus placeholder="Add Item" --paper-input-container-focus-color="red">
+        <paper-fab suffix icon="add" title="add item" id="add-fab"></paper-fab>
+      </paper-input>
     </paper-material>
   </template>
 
