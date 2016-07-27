@@ -1,0 +1,7 @@
+{
+  "name": "todo-polymer",
+  "short_name": "todo-polymer",
+  "description": "Sample Project. Polymer ToDo List.",
+  "start_url": "/",
+  "display": "standalone"
+}
