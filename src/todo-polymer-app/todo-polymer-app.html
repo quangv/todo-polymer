@@ -3,6 +3,8 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
 
 <dom-module id="todo-polymer-app">
   <template>
@@ -21,10 +23,20 @@
     </style>
     <h2>[[prop1]]</h2>
     <paper-material elevation="2" id="paper">
-    <paper-input id="input" on-keyup="handleKeyUp" autofocus placeholder="Add Item" --paper-input-container-focus-color="red">
-        <paper-fab suffix icon="add" title="add item" id="add-fab" on-click="addItem"></paper-fab>
-      </paper-input>
+      <paper-input id="input" on-keyup="handleKeyUp" autofocus placeholder="Add Item" --paper-input-container-focus-color="red">
+          <paper-fab suffix icon="add" title="add item" id="add-fab" on-click="addItem"></paper-fab>
+        </paper-input>
+
+        <div role="listbox">
+          <template is="dom-repeat" items="{{items}}">
+            <paper-icon-item>{{item.text}}</paper-icon-item>
+          </template>
+        </div>
+
     </paper-material>
+    <app-localstorage-document key="items" data="{{items}}"></app-localstorage-document>
+
+
   </template>
 
   <script>
@@ -37,6 +49,10 @@
           type: String,
           value: 'To-Do Polymer App',
         },
+        items: {
+          type: Array,
+          value: []
+        }
       },
 
       handleKeyUp: function(event){
@@ -46,9 +62,14 @@
       },
 
       addItem: function(){
-        var text = this.$.input.value;
+        let text = this.$.input.value;
+        let item = {
+          text: text
+        }
         if(!text) return;  // Don't allow adding blank items.
+        this.unshift('items', item);
         console.log('add', text);
+        console.log('get', this.get('items'));
         this.$.input.value = "";
       }
 
