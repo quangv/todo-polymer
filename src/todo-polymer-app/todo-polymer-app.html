@@ -1,10 +1,12 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+nlink rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 
 <link rel="import" href="todo-item.html">
 
@@ -26,9 +28,6 @@
       #add-fab {
         background-color: lightgreen;
       }
-      paper-icon-item:nth-child(odd) {
-        background-color: lightpink;
-      }
 
       #footer {
         text-align: right;
@@ -39,6 +38,12 @@
         color: lightblue;
         text-decoration: none;
         font-size: 0.8em;
+      }
+      .yellow-button {
+        color: #eeff41;
+        text-transform: none;
+      }
+      paper-toast {
       }
     </style>
     <h1>To-Do Polymer App</h1>
@@ -59,6 +64,10 @@
 
 
     <app-localstorage-document key="items" data="{{items}}"></app-localstorage-document>
+
+    <paper-toast duration="0" text="Items are saved locally. Leave & come back, your items will still be here!" id="toast">
+      <paper-button on-click="closeToast" class="yellow-button">Close</paper-button>
+    </paper-toast>
 
 
   </template>
@@ -94,6 +103,11 @@
         if(!text) return;  // Don't allow adding blank items.
         this.unshift('items', item);
         this.$.input.value = "";
+
+        // Show Toast if 1 item added.
+        if(this.get('items').length === 1){
+          this.$.toast.open();
+        }
       },
 
       removeItem: function(event){
@@ -112,7 +126,12 @@
         }
          
         this.splice('items', index, 1, item);
+      },
+
+      closeToast: function(){
+        this.$.toast.close();
       }
+
 
     });
 
