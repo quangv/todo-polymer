@@ -5,6 +5,8 @@
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 <link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
 <dom-module id="todo-polymer-app">
   <template>
@@ -20,6 +22,9 @@
       #add-fab {
         background-color: lightgreen;
       }
+      paper-icon-item:nth-child(odd) {
+        background-color: lightpink;
+      }
     </style>
     <h2>[[prop1]]</h2>
     <paper-material elevation="2" id="paper">
@@ -29,7 +34,12 @@
 
         <div role="listbox">
           <template is="dom-repeat" items="{{items}}">
-            <paper-icon-item>{{item.text}}</paper-icon-item>
+            <paper-icon-item>
+              <paper-item-body>
+                {{item.text}}
+              </paper-item-body>
+              <paper-icon-button icon="clear" on-click="removeItem" data-index$="{{index}}"></paper-icon-button>
+            </paper-icon-item>
           </template>
         </div>
 
@@ -68,9 +78,12 @@
         }
         if(!text) return;  // Don't allow adding blank items.
         this.unshift('items', item);
-        console.log('add', text);
-        console.log('get', this.get('items'));
         this.$.input.value = "";
+      },
+
+      removeItem: function(event){
+        let index = event.target.parentNode.getAttribute('data-index')
+        this.splice('items', index, 1);
       }
 
     });
