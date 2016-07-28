@@ -1,0 +1,36 @@
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+<dom-module id="todo-item">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <paper-icon-item>
+      <paper-item-body>
+        {{text}}
+      </paper-item-body>
+      <paper-icon-button icon="clear" on-click="handleRemoveClick" data-index$="{{index}}"></paper-icon-button>
+    </paper-icon-item>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'todo-item',
+
+      properties: {
+      },
+
+      handleRemoveClick: function(event){
+        this.fire('removeItem', {index: this.get('index')});
+      }
+
+    });
+  </script>
+</dom-module>
