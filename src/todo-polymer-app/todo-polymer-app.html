@@ -4,6 +4,8 @@
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
 <link rel="import" href="todo-item.html">
 
 <dom-module id="todo-polymer-app">
@@ -12,6 +14,10 @@
       :host {
         display: block;
         --paper-input-container-focus-color: orange;
+      }
+      h1 {
+        @apply(--paper-font-display3);
+        text-align: center;
       }
       #paper {
         margin: 0 10%;
@@ -23,20 +29,35 @@
       paper-icon-item:nth-child(odd) {
         background-color: lightpink;
       }
+
+      #footer {
+        text-align: right;
+        position: relative;
+        top: 2.5em;
+      }
+      #footer a{
+        color: lightblue;
+        text-decoration: none;
+        font-size: 0.8em;
+      }
     </style>
-    <h2>[[prop1]]</h2>
+    <h1>To-Do Polymer App</h1>
     <paper-material elevation="2" id="paper">
       <paper-input id="input" on-keyup="handleKeyUp" autofocus placeholder="Add Item" --paper-input-container-focus-color="red">
-          <paper-fab suffix icon="add" title="add item" id="add-fab" on-click="addItem"></paper-fab>
-        </paper-input>
+        <paper-fab suffix icon="add" title="add item" id="add-fab" on-click="addItem"></paper-fab>
+      </paper-input>
 
-        <div role="listbox" class="list">
-          <template is="dom-repeat" items="{{items}}">
-            <todo-item item="{{item}}" text="{{item.text}}" index="{{index}}"></todo-item>
-          </template>
-        </div>
-
+      <div role="listbox" class="list">
+        <template is="dom-repeat" items="{{items}}">
+          <todo-item item="{{item}}" text="{{item.text}}" index="{{index}}"></todo-item>
+        </template>
+      </div>
+      <div id="footer">
+        <code><a href="https://github.com/quangv/todo-polymer" target="_blank">&lt;src&gt;</a></code> <a href="http://quangv.github.io" target="_blank">Quangv</a>
+      </div>
     </paper-material>
+
+
     <app-localstorage-document key="items" data="{{items}}"></app-localstorage-document>
 
 
@@ -48,10 +69,6 @@
       is: 'todo-polymer-app',
 
       properties: {
-        prop1: {
-          type: String,
-          value: 'To-Do Polymer App',
-        },
         items: {
           type: Array,
           value: []
