@@ -11,10 +11,11 @@
     </style>
 
     <paper-icon-item>
+      <paper-icon-button icon="{{starButtonIcon}}" on-click="toggleStarClick"></paper-icon-button>
       <paper-item-body>
         {{text}}
       </paper-item-body>
-      <paper-icon-button icon="clear" on-click="handleRemoveClick" data-index$="{{index}}"></paper-icon-button>
+      <paper-icon-button icon="clear" on-click="handleRemoveClick"></paper-icon-button>
     </paper-icon-item>
 
   </template>
@@ -25,9 +26,26 @@
       is: 'todo-item',
 
       properties: {
+        item: {
+          type: Object,
+        },
+        starButtonIcon: {
+          type: String,
+          computed: 'computeStarButtonIcon(item)'
+        }
       },
 
-      handleRemoveClick: function(event){
+      computeStarButtonIcon: function(item){
+        if(item.star){
+          return 'star';
+        }
+        return 'star-border';
+      },
+
+      toggleStarClick: function(){
+        this.fire('toggleStarItem', {item: this.get('item'), index: this.get('index')});
+      },
+      handleRemoveClick: function(){
         this.fire('removeItem', {index: this.get('index')});
       }
 

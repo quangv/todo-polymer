@@ -32,7 +32,7 @@
 
         <div role="listbox" class="list">
           <template is="dom-repeat" items="{{items}}">
-            <todo-item text="{{item.text}}" index="{{index}}"></todo-item>
+            <todo-item item="{{item}}" text="{{item.text}}" index="{{index}}"></todo-item>
           </template>
         </div>
 
@@ -60,6 +60,7 @@
 
       ready: function(){
         this.addEventListener('removeItem', this.removeItem);
+        this.addEventListener('toggleStarItem', this.toggleStar);
       },
 
       handleKeyUp: function(event){
@@ -81,6 +82,19 @@
       removeItem: function(event){
         let index = event.detail.index;
         this.splice('items', index, 1);
+      },
+
+      toggleStar: function(event){
+        let index = event.detail.index;
+        let item = event.detail.item;
+
+        // Clone item
+        item = {
+          text: item.text,
+          star: !item.star  // toggle star
+        }
+         
+        this.splice('items', index, 1, item);
       }
 
     });
